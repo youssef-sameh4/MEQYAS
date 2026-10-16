@@ -1,0 +1,6 @@
+@MEQYAS.API_HostAddress = http://localhost:5155
+
+GET {{MEQYAS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
