@@ -1,0 +1,53 @@
+# General
+
+.DS_Store
+Thumbs.db
+*.log
+
+# .NET
+
+**/bin/
+**/obj/
+**/TestResults/
+*.user
+*.suo
+
+# Visual Studio
+
+.vs/
+.idea/
+
+# ASP.NET Core secrets and local settings
+
+**/appsettings.Development.json
+**/secrets.json
+
+# Python
+
+**/**pycache**/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/.pytest_cache/
+**/.ipynb_checkpoints/
+
+# Flutter / Dart
+
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/build/
+**/coverage/
+**/.packages
+**/pubspec.lock
+
+# Environment variables
+
+.env
+.env.*
+!.env.example
+
+# Operating system
+
+.DS_Store
+Thumbs.db
