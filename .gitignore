@@ -39,7 +39,6 @@ Thumbs.db
 **/build/
 **/coverage/
 **/.packages
-**/pubspec.lock
 
 # Environment variables
 
