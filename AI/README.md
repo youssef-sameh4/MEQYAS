@@ -20,6 +20,7 @@ AI/
 │   └── meqyas.ipynb                # End-to-end analysis & training notebook
 ├── .env                            # Environment variables (git-ignored)
 ├── .gitignore
+├── predict.py                      # CLI script for batch anomaly prediction
 ├── requirements.txt
 └── README.md
 ```
@@ -117,6 +118,28 @@ pip install -r requirements.txt
 2. Open and run `notebook/meqyas.ipynb` to reproduce the full analysis.
 3. The trained model is saved to `model/IsolationForest_Model.joblib`.
 
+#### Running predictions via CLI
+
+Use `predict.py` to run batch anomaly detection from the command line:
+
+```bash
+# Predict on the default dataset
+python predict.py
+
+# Predict on a custom CSV
+python predict.py --input path/to/data.csv
+
+# Save results to a file
+python predict.py --output results.csv
+
+# Show top 20 anomalies
+python predict.py --top 20
+```
+
+The script mirrors the notebook preprocessing pipeline and outputs:
+- A **prediction summary** (total rows, normal/anomaly counts, score statistics)
+- A ranked list of the **top anomalies** by anomaly score percentage (0 % = normal, 100 % = most anomalous)
+
 #### Loading the model programmatically
 
 ```python
@@ -136,3 +159,4 @@ predictions = model.predict(X_new)  # -1 = anomaly, 1 = normal
 | matplotlib     | Plotting                         |
 | seaborn        | Statistical visualizations       |
 | joblib         | Model serialization              |
+| fastapi        | Backend API integration          |
