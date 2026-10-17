@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.10.12224.181 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEQYAS.API", "MEQYAS.API\MEQYAS.API.csproj", "{9BE8BC19-A002-4365-B479-9075A3C915E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEQYAS.Domain", "MEQYAS.Domain\MEQYAS.Domain.csproj", "{DE9EA0CA-58E1-9179-428B-0B1FB4A4E054}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEQYAS.Infrastructure", "MEQYAS.Infrastructure\MEQYAS.Infrastructure.csproj", "{19794C02-7960-A084-434A-73D5858A7921}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MEQYAS.Application", "MEQYAS.Application\MEQYAS.Application.csproj", "{70913B03-13A2-EF5E-FBE3-3E09EC56ED67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9BE8BC19-A002-4365-B479-9075A3C915E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BE8BC19-A002-4365-B479-9075A3C915E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BE8BC19-A002-4365-B479-9075A3C915E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BE8BC19-A002-4365-B479-9075A3C915E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9EA0CA-58E1-9179-428B-0B1FB4A4E054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9EA0CA-58E1-9179-428B-0B1FB4A4E054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9EA0CA-58E1-9179-428B-0B1FB4A4E054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9EA0CA-58E1-9179-428B-0B1FB4A4E054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19794C02-7960-A084-434A-73D5858A7921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19794C02-7960-A084-434A-73D5858A7921}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19794C02-7960-A084-434A-73D5858A7921}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19794C02-7960-A084-434A-73D5858A7921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70913B03-13A2-EF5E-FBE3-3E09EC56ED67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70913B03-13A2-EF5E-FBE3-3E09EC56ED67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70913B03-13A2-EF5E-FBE3-3E09EC56ED67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70913B03-13A2-EF5E-FBE3-3E09EC56ED67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9AD87DB-1716-4E33-B290-86DF634F2674}
+	EndGlobalSection
+EndGlobal
