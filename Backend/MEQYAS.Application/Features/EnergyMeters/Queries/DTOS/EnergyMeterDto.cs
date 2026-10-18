@@ -1,0 +1,28 @@
+﻿using MEQYAS.Domain.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MEQYAS.Application.Features.EnergyMeters.Queries.DTOS
+{
+    public class EnergyMeterDto
+    {
+        public Guid Id { get; set; }
+
+        public Guid FactoryId { get; set; }
+
+        public string Name { get; set; } = string.Empty;
+
+        public string Code { get; set; } = string.Empty;
+
+        public MeterType MeterType { get; set; }
+
+        public string Unit { get; set; } = string.Empty;
+
+        public bool IsActive { get; set; }
+
+        public DateTime CreatedAtUtc { get; set; }
+    }
+}
