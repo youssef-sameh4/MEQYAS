@@ -118,6 +118,49 @@ pip install -r requirements.txt
 2. Open and run `notebook/meqyas.ipynb` to reproduce the full analysis.
 3. The trained model is saved to `model/IsolationForest_Model.joblib`.
 
+#### Running the FastAPI Server (Uvicorn)
+
+You can launch the FastAPI server directly with Python or using the Uvicorn CLI:
+
+```bash
+# Direct python run
+python main.py
+
+# Or via Uvicorn CLI with hot reload
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Once running, interactive API docs are accessible at:
+- **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+##### Example API Request (`POST /predict`):
+
+```bash
+curl -X POST "http://localhost:8000/predict" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "asset": 0,
+       "items": 4.0,
+       "status": 2,
+       "power_avg": 2.0,
+       "alarm": 0,
+       "product": 0
+     }'
+```
+
+##### Example Response:
+
+```json
+{
+  "is_anomaly": false,
+  "prediction": "normal",
+  "anomaly_percentage": 39.41,
+  "raw_score": 0.114097,
+  "message": "Reading is normal with 39.41% anomaly score."
+}
+```
+
 #### Running predictions via CLI
 
 Use `predict.py` to run batch anomaly detection from the command line:
@@ -160,3 +203,4 @@ predictions = model.predict(X_new)  # -1 = anomaly, 1 = normal
 | seaborn        | Statistical visualizations       |
 | joblib         | Model serialization              |
 | fastapi        | Backend API integration          |
+| uvicorn        | ASGI web server                  |
