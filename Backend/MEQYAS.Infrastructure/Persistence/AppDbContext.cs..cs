@@ -23,59 +23,57 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Factory
-        modelBuilder.Entity<Factory>()
-            .HasIndex(f => f.Code)
-            .IsUnique();
+        modelBuilder.Entity<Factory>(entity =>
+        {
+            entity.HasIndex(f => f.Code).IsUnique();
+            entity.Property(f => f.Name).HasMaxLength(200);
+            entity.Property(f => f.Code).HasMaxLength(50);
+        });
 
         // EnergyMeter
-        modelBuilder.Entity<EnergyMeter>()
-            .HasIndex(m => new { m.FactoryId, m.Code })
-            .IsUnique();
+        modelBuilder.Entity<EnergyMeter>(entity =>
+        {
+            entity.HasIndex(m => new { m.FactoryId, m.Code }).IsUnique();
+            entity.Property(m => m.Name).HasMaxLength(200);
+            entity.Property(m => m.Code).HasMaxLength(50);
+        });
 
         // EnergyReading
-        modelBuilder.Entity<EnergyReading>()
-            .HasIndex(r => new { r.EnergyMeterId, r.RecordedAtUtc })
-            .IsUnique();
+        modelBuilder.Entity<EnergyReading>(entity =>
+        {
+            entity.HasIndex(r => new { r.EnergyMeterId, r.RecordedAtUtc }).IsUnique();
+            entity.Property(r => r.Value).HasPrecision(18, 4);
+        });
 
-        // Decimal Precision
-        modelBuilder.Entity<EnergyTariff>()
-            .Property(t => t.PricePerKwh)
-            .HasPrecision(18, 4);
+        // EnergyTariff
+        modelBuilder.Entity<EnergyTariff>(entity =>
+        {
+            entity.Property(t => t.PricePerKwh).HasPrecision(18, 4);
+            entity.Property(t => t.CurrencyCode).HasMaxLength(3);
+        });
 
-        modelBuilder.Entity<EnergyAlert>()
-            .Property(a => a.ObservedValue)
-            .HasPrecision(18, 4);
+        // EnergyAlert
+        modelBuilder.Entity<EnergyAlert>(entity =>
+        {
+            entity.Property(a => a.ObservedValue).HasPrecision(18, 4);
+            entity.Property(a => a.ExpectedValue).HasPrecision(18, 4);
+        });
 
-        modelBuilder.Entity<EnergyAlert>()
-            .Property(a => a.ExpectedValue)
-            .HasPrecision(18, 4);
+        // Recommendation
+        modelBuilder.Entity<Recommendation>(entity =>
+        {
+            entity.Property(r => r.EstimatedSavingsAmount).HasPrecision(18, 2);
+        });
 
-        modelBuilder.Entity<Recommendation>()
-            .Property(r => r.EstimatedSavingsAmount)
-            .HasPrecision(18, 2);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.BaselineConsumptionKwh)
-            .HasPrecision(18, 4);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.ReductionPercentage)
-            .HasPrecision(5, 2);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.BaselineCost)
-            .HasPrecision(18, 2);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.ProjectedConsumptionKwh)
-            .HasPrecision(18, 4);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.ProjectedCost)
-            .HasPrecision(18, 2);
-
-        modelBuilder.Entity<SavingsSimulation>()
-            .Property(s => s.EstimatedSavingsAmount)
-            .HasPrecision(18, 2);
+        // SavingsSimulation
+        modelBuilder.Entity<SavingsSimulation>(entity =>
+        {
+            entity.Property(s => s.BaselineConsumptionKwh).HasPrecision(18, 4);
+            entity.Property(s => s.ReductionPercentage).HasPrecision(5, 2);
+            entity.Property(s => s.BaselineCost).HasPrecision(18, 2);
+            entity.Property(s => s.ProjectedConsumptionKwh).HasPrecision(18, 4);
+            entity.Property(s => s.ProjectedCost).HasPrecision(18, 2);
+            entity.Property(s => s.EstimatedSavingsAmount).HasPrecision(18, 2);
+        });
     }
 }

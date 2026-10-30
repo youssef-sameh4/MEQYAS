@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using AutoMapper;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MEQYAS.Application
 {
-    internal class ApplicationDependencyInjection
+    public static class ApplicationDependencyInjection
     {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+            services.AddValidatorsFromAssembly(assembly);
+            services.AddAutoMapper(cfg => { }, assembly);
+            return services;
+        }
     }
 }
