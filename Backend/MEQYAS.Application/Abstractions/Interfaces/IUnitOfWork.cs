@@ -1,4 +1,5 @@
 ﻿using MEQYAS.Domain.Entities;
+using MEQYAS.Domain.Entities.Analysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,9 @@ namespace MEQYAS.Application.Abstractions.Interfaces
         IGenericRepository<Recommendation> Recommendations { get; }
 
         IGenericRepository<SavingsSimulation> SavingsSimulations { get; }
+        IGenericRepository<AnalysisRun> AnalysisRuns { get; }
 
+        IGenericRepository<AnalysisResult> AnalysisResults { get; }
         Task<int> SaveChangesAsync(
             CancellationToken cancellationToken = default);
 

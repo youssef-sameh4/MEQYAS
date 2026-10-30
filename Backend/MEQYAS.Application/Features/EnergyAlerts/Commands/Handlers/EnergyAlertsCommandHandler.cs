@@ -64,7 +64,7 @@ namespace MEQYAS.Application.Features.EnergyAlerts.Commands.Handlers
 
             alert.Id = Guid.NewGuid();
             alert.DetectedAtUtc = DateTime.UtcNow;
-            alert.Status = AlertStatus.New;
+            alert.Status = AlertStatus.Active;
 
             await _unitOfWork.EnergyAlerts.AddAsync(
                 alert,

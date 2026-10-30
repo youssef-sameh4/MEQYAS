@@ -2,8 +2,7 @@
 //تعالي كدا لما نعمل اينم علان نخزن فيه حاله التنيه 
 public enum AlertStatus
 {
-    New,
-    UnderInvestigation,
-    Resolved,
-    Dismissed
+    Active = 1,
+    Acknowledged = 2,
+    Resolved = 3
 }
