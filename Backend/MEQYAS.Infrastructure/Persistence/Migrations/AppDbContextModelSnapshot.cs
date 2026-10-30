@@ -22,6 +22,114 @@ namespace MEQYAS.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MEQYAS.Domain.Entities.Analysis.AnalysisResult", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("ActualPowerFactor")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<Guid>("AnalysisRunId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("AnomalyPercentage")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal?>("ComputedQPRatio")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<Guid?>("EnergyReadingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAnomaly")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsLowPfRisk")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Prediction")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("RawScore")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal?>("RiskProbability")
+                        .HasPrecision(10, 8)
+                        .HasColumnType("decimal(10,8)");
+
+                    b.Property<decimal?>("ThresholdUsed")
+                        .HasPrecision(10, 8)
+                        .HasColumnType("decimal(10,8)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnalysisRunId");
+
+                    b.HasIndex("EnergyReadingId");
+
+                    b.ToTable("AnalysisResults");
+                });
+
+            modelBuilder.Entity("MEQYAS.Domain.Entities.Analysis.AnalysisRun", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AnalysisType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("AnomaliesCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("AnomalyRatePct")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<DateTime?>("CompletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DataSource")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("FactoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("LowPfRiskCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NormalCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("RiskRatePct")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<DateTime>("StartedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalReadings")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FactoryId");
+
+                    b.ToTable("AnalysisRuns");
+                });
+
             modelBuilder.Entity("MEQYAS.Domain.Entities.EnergyAlert", b =>
                 {
                     b.Property<Guid>("Id")
@@ -30,6 +138,9 @@ namespace MEQYAS.Infrastructure.Migrations
 
                     b.Property<int>("AlertType")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("AnalysisResultId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -45,7 +156,7 @@ namespace MEQYAS.Infrastructure.Migrations
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<Guid>("FactoryId")
+                    b.Property<Guid?>("FactoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("ObservedValue")
@@ -63,6 +174,8 @@ namespace MEQYAS.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AnalysisResultId");
 
                     b.HasIndex("EnergyMeterId");
 
@@ -319,17 +432,48 @@ namespace MEQYAS.Infrastructure.Migrations
                     b.ToTable("SavingsSimulations");
                 });
 
+            modelBuilder.Entity("MEQYAS.Domain.Entities.Analysis.AnalysisResult", b =>
+                {
+                    b.HasOne("MEQYAS.Domain.Entities.Analysis.AnalysisRun", "AnalysisRun")
+                        .WithMany("Results")
+                        .HasForeignKey("AnalysisRunId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MEQYAS.Domain.Entities.EnergyReading", "EnergyReading")
+                        .WithMany()
+                        .HasForeignKey("EnergyReadingId");
+
+                    b.Navigation("AnalysisRun");
+
+                    b.Navigation("EnergyReading");
+                });
+
+            modelBuilder.Entity("MEQYAS.Domain.Entities.Analysis.AnalysisRun", b =>
+                {
+                    b.HasOne("MEQYAS.Domain.Entities.Factory", "Factory")
+                        .WithMany()
+                        .HasForeignKey("FactoryId");
+
+                    b.Navigation("Factory");
+                });
+
             modelBuilder.Entity("MEQYAS.Domain.Entities.EnergyAlert", b =>
                 {
+                    b.HasOne("MEQYAS.Domain.Entities.Analysis.AnalysisResult", "AnalysisResult")
+                        .WithMany()
+                        .HasForeignKey("AnalysisResultId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("MEQYAS.Domain.Entities.EnergyMeter", "EnergyMeter")
                         .WithMany("EnergyAlerts")
                         .HasForeignKey("EnergyMeterId");
 
                     b.HasOne("MEQYAS.Domain.Entities.Factory", "Factory")
                         .WithMany("EnergyAlerts")
-                        .HasForeignKey("FactoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FactoryId");
+
+                    b.Navigation("AnalysisResult");
 
                     b.Navigation("EnergyMeter");
 
@@ -401,6 +545,11 @@ namespace MEQYAS.Infrastructure.Migrations
                     b.Navigation("Factory");
 
                     b.Navigation("Recommendation");
+                });
+
+            modelBuilder.Entity("MEQYAS.Domain.Entities.Analysis.AnalysisRun", b =>
+                {
+                    b.Navigation("Results");
                 });
 
             modelBuilder.Entity("MEQYAS.Domain.Entities.EnergyAlert", b =>

@@ -1,5 +1,6 @@
 ﻿using MEQYAS.Application.Abstractions.Interfaces;
 using MEQYAS.Domain.Entities;
+using MEQYAS.Domain.Entities.Analysis;
 using MEQYAS.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace MEQYAS.Infrastructure.Repositories
         public IGenericRepository<Recommendation> Recommendations { get; }
 
         public IGenericRepository<SavingsSimulation> SavingsSimulations { get; }
+        public IGenericRepository<AnalysisRun> AnalysisRuns { get; }
 
+        public IGenericRepository<AnalysisResult> AnalysisResults { get; }
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -38,6 +41,9 @@ namespace MEQYAS.Infrastructure.Repositories
             EnergyAlerts = new GenericRepository<EnergyAlert>(_context);
             Recommendations = new GenericRepository<Recommendation>(_context);
             SavingsSimulations = new GenericRepository<SavingsSimulation>(_context);
+            AnalysisRuns = new GenericRepository<AnalysisRun>(_context);
+
+            AnalysisResults = new GenericRepository<AnalysisResult>(_context);
         }
 
         public Task<int> SaveChangesAsync(

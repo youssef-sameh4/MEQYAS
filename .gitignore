@@ -51,3 +51,6 @@ Thumbs.db
 
 .DS_Store
 Thumbs.db
+
+# Publish profiles - may contain credentials
+**/Properties/PublishProfiles/

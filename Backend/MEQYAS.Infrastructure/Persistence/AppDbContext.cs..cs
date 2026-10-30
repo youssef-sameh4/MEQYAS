@@ -1,4 +1,6 @@
 ﻿using MEQYAS.Domain.Entities;
+using MEQYAS.Domain.Entities.Analysis;
+using MEQYAS.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace MEQYAS.Infrastructure.Persistence;
@@ -17,11 +19,51 @@ public class AppDbContext : DbContext
     public DbSet<EnergyAlert> EnergyAlerts => Set<EnergyAlert>();
     public DbSet<Recommendation> Recommendations => Set<Recommendation>();
     public DbSet<SavingsSimulation> SavingsSimulations => Set<SavingsSimulation>();
+    public DbSet<AnalysisResult> AnalysisResults  => Set<AnalysisResult>();
+    public DbSet<AnalysisRun> AnalysisRuns => Set<AnalysisRun>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        // AnalysisRun
+        modelBuilder.Entity<AnalysisRun>(entity =>
+        {
+            entity.Property(x => x.AnomalyRatePct)
+                .HasPrecision(5, 2);
+
+            entity.Property(x => x.RiskRatePct)
+                .HasPrecision(5, 2);
+
+            // Existing records will be treated as Model 1.
+            entity.Property(x => x.AnalysisType)
+                .HasDefaultValue(AnalysisType.AnomalyDetection);
+        });
+
+        // AnalysisResult
+        modelBuilder.Entity<AnalysisResult>(entity =>
+        {
+            entity.Property(x => x.AnomalyPercentage)
+                .HasPrecision(5, 2);
+
+            entity.Property(x => x.RawScore)
+                .HasPrecision(18, 8);
+
+            entity.Property(x => x.RiskProbability)
+                .HasPrecision(10, 8);
+
+            entity.Property(x => x.ActualPowerFactor)
+                .HasPrecision(18, 8);
+
+            entity.Property(x => x.ComputedQPRatio)
+                .HasPrecision(18, 8);
+
+            entity.Property(x => x.ThresholdUsed)
+                .HasPrecision(10, 8);
+
+            entity.Property(x => x.Prediction)
+                .HasMaxLength(100);
+        });
         // Factory
         modelBuilder.Entity<Factory>(entity =>
         {
@@ -55,8 +97,16 @@ public class AppDbContext : DbContext
         // EnergyAlert
         modelBuilder.Entity<EnergyAlert>(entity =>
         {
-            entity.Property(a => a.ObservedValue).HasPrecision(18, 4);
-            entity.Property(a => a.ExpectedValue).HasPrecision(18, 4);
+            entity.Property(a => a.ObservedValue)
+                .HasPrecision(18, 4);
+
+            entity.Property(a => a.ExpectedValue)
+                .HasPrecision(18, 4);
+
+            entity.HasOne(a => a.AnalysisResult)
+                .WithMany()
+                .HasForeignKey(a => a.AnalysisResultId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         // Recommendation

@@ -1,4 +1,5 @@
-﻿using MEQYAS.Domain.Enums;
+﻿using MEQYAS.Domain.Entities.Analysis;
+using MEQYAS.Domain.Enums;
 
 namespace MEQYAS.Domain.Entities;
 
@@ -16,8 +17,7 @@ public class EnergyAlert
     /// <summary>
     /// Gets or sets the unique identifier of the factory associated with this alert.
     /// </summary>
-    public Guid FactoryId { get; set; }
-
+    public Guid? FactoryId { get; set; }
     /// <summary>
     /// Gets or sets the unique identifier of the specific energy meter associated with this alert, if applicable.
     /// </summary>
@@ -68,8 +68,7 @@ public class EnergyAlert
     /// <summary>
     /// Gets or sets the factory that this alert belongs to.
     /// </summary>
-    public Factory Factory { get; set; } = null!;
-
+    public Factory? Factory { get; set; }
     /// <summary>
     /// Gets or sets the specific energy meter associated with this alert, if any.
     /// </summary>
@@ -80,4 +79,8 @@ public class EnergyAlert
     /// </summary>
     public ICollection<Recommendation> Recommendations { get; set; }
         = new List<Recommendation>();
+
+
+    public Guid? AnalysisResultId { get; set; }
+    public AnalysisResult? AnalysisResult { get; set; }
 }
